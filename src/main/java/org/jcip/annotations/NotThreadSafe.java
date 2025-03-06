@@ -1,4 +1,4 @@
-package org.jcip.chapter01.annotations;
+package org.jcip.annotations;
 
 /**
  * Marks class that cannot be used in multithreading environment.

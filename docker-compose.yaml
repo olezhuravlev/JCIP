@@ -1,0 +1,28 @@
+version: "3.8"
+services:
+  dhoster:
+    image: dvdarias/docker-hoster
+    container_name: dhoster
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock
+      - /etc/hosts:/tmp/hosts
+
+  tomcat:
+    image: tomcat:jre21-temurin-noble
+    container_name: tomcat
+    volumes:
+      - ./tomcat/conf/tomcat-users.xml:/usr/local/tomcat/conf/tomcat-users.xml
+      - ./tomcat/webapps:/usr/local/tomcat/webapps
+    ports:
+      - "8888:8080"
+    networks:
+      - jcip-network
+
+networks:
+  jcip-network:
+    name: jcip-network
+    driver: bridge
+#    ipam:
+#      config:
+#        - subnet: 172.30.0.0/24
+#          gateway: 172.30.0.1

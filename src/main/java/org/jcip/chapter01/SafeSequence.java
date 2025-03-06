@@ -1,7 +1,7 @@
 package org.jcip.chapter01;
 
-import org.jcip.chapter01.annotations.GuardedBy;
-import org.jcip.chapter01.annotations.ThreadSafe;
+import org.jcip.annotations.GuardedBy;
+import org.jcip.annotations.ThreadSafe;
 
 @ThreadSafe
 public class SafeSequence {

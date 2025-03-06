@@ -1,6 +1,6 @@
 package org.jcip.chapter01;
 
-import org.jcip.chapter01.annotations.NotThreadSafe;
+import org.jcip.annotations.NotThreadSafe;
 
 @NotThreadSafe
 public class UnsafeSequence {

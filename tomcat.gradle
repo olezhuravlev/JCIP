@@ -1,0 +1,33 @@
+// FUNCTIONS TO DEPLOY APPS IN TOMCAT
+
+// Creates exploded WAR under name 'ROOT' in 'build/libs' directory.
+task exwar(type: Sync) {
+    def destDir = "libs/ROOT"
+    into "${rootProject.layout.buildDirectory.get()}/${destDir}"
+    with war
+}
+
+// Cleans out content of 'tomcat/webapps/' directory.
+task tccl(type: Delete) {
+    def destDir = "tomcat/webapps/"
+    doLast {
+        file("${destDir}").list().each { file -> delete "${destDir}/${file}" }
+    }
+}
+
+// Copies content of 'build/libs' directory into 'tomcat/webapps/' directory.
+task tcdep() {
+
+    dependsOn "tccl"
+    dependsOn "exwar"
+
+    def sourceDir = "libs"
+    def destDir = "tomcat/webapps/"
+
+    doLast {
+        copy {
+            from "${rootProject.layout.buildDirectory.get()}/${sourceDir}/"
+            into "${destDir}"
+        }
+    }
+}
