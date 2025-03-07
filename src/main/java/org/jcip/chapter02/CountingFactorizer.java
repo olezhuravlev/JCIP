@@ -4,25 +4,22 @@ import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
-import org.jcip.annotations.NotThreadSafe;
+import org.jcip.annotations.ThreadSafe;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.math.BigInteger;
+import java.util.concurrent.atomic.AtomicLong;
 
-@NotThreadSafe
-@WebServlet("/counter")
-public class UnsafeCountingFactorizer extends HttpServlet {
+@ThreadSafe
+@WebServlet("/counter-safe")
+public class CountingFactorizer extends HttpServlet {
 
-    private long count = 0;
+    private final AtomicLong count = new AtomicLong(0);
 
-    //    @Override
-    //    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-    //        resp.setContentType("text/html");
-    //        PrintWriter printWriter = resp.getWriter();
-    //        printWriter.write("Hello!");
-    //        printWriter.close();
-    //    }
+    public long getCount() {
+        return count.get();
+    }
 
     @Override
     public void service(ServletRequest req, ServletResponse resp) throws IOException {
@@ -30,11 +27,11 @@ public class UnsafeCountingFactorizer extends HttpServlet {
         BigInteger i = extractFromRequest(req);
         BigInteger[] factors = factor(i);
 
-        ++count;
+        count.incrementAndGet();
 
         encodeIntoResponse(resp, factors);
 
-        String message = "=====> COUNT: " + count;
+        String message = "=====> COUNT: " + getCount();
         System.out.println(message);
 
         resp.setContentType("text/html");

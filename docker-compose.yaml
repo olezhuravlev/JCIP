@@ -11,7 +11,6 @@ services:
     image: tomcat:jre21-temurin-noble
     container_name: tomcat
     volumes:
-      - ./tomcat/conf/tomcat-users.xml:/usr/local/tomcat/conf/tomcat-users.xml
       - ./tomcat/webapps:/usr/local/tomcat/webapps
     ports:
       - "8888:8080"
